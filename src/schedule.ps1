@@ -3,15 +3,15 @@
 # Company: Semakula LTD
 
 #Importing sendMessage Script
-. "C:\Users\User\Documents\Powershell_scripts\sendMessage.ps1"
+. "C:\Users\User\Desktop\Git_repos\Windows-Automation-Timetable\src\sendMessage.ps1"
 
 
-readTimetable
+
 
 #test powershell script
 
 #Import the csv file
-$csv = Import-Csv C:\Users\User\Documents\Powershell_scripts\timetable.csv 
+$csv = Import-Csv C:\Users\User\Desktop\Git_repos\Windows-Automation-Timetable\input\timetable.csv
 $ARR_RESULT = @()
 
 function readTimetable{
@@ -20,8 +20,9 @@ function readTimetable{
 	
 		$global:ARR_RESULT += @(New-Object PSObject -Property @{Name = $_.Task; Time = $_.Time; Day = $_.Day})
 	}
-
 }
+
+readTimetable
 
 function scheduleTasks{
 
@@ -36,8 +37,6 @@ function scheduleTasks{
 
 #Follow method signatures will need to start the appropiate applications
 function learnLanguages{
-
-	
 	$TIME = $_.Time
 	
 	
@@ -54,12 +53,12 @@ function learnLanguages{
 	echo $DAY
 	
 	
-	sendMessage "Opening up Surah Document" "Time to start learning the Quran"
-	
 	#Schedule task to open up word document
-	#schTasks /Create /SC DAILY /TN "My Task" /TR "C:\Program Files\Sublime Text 3\sublime_text.exe" /ST 22:39
+	schTasks /Create /SC DAILY /TN "Arabic Message Warning" /TR (C:\Users\User\Desktop\Git_repos\Windows-Automation-Timetable\src\sendMessage.ps1 "Opening up Surah Document" "Time to start learning the Quran") /ST 23:29
+	schTasks /Create /SC DAILY /TN "My Task" /TR "C:\Users\User\Documents\Arabic\Surahs.docx" /ST 23:29
 	
 	
+	#Start-Process -FilePath "C:\Users\User\Documents\Arabic\Surahs.docx"
 	
 }
 
