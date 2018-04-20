@@ -3,7 +3,7 @@
 # Company: Semakula LTD
 
 #Importing sendMessage Script
-. "C:\Users\User\Desktop\Git_repos\Windows-Automation-Timetable\src\sendMessage.ps1"
+#. "C:\Users\User\Desktop\Git_repos\Windows-Automation-Timetable\src\sendMessage.ps1"
 
 
 
@@ -37,8 +37,6 @@ function scheduleTasks{
 
 #Follow method signatures will need to start the appropiate applications
 function learnLanguages{
-	$TIME = $_.Time
-	
 	
 	$global:ARR_RESULT | ForEach-Object{
 		if ($_.Name -eq "Arabic"){
@@ -48,14 +46,10 @@ function learnLanguages{
 		}
 	}
 	
-	echo $TASK_NAME
-	echo $TIME
-	echo $DAY
-	
 	
 	#Schedule task to open up word document
-	schTasks /Create /SC DAILY /TN "Arabic Message Warning" /TR (C:\Users\User\Desktop\Git_repos\Windows-Automation-Timetable\src\sendMessage.ps1 "Opening up Surah Document" "Time to start learning the Quran") /ST 23:29
-	schTasks /Create /SC DAILY /TN "My Task" /TR "C:\Users\User\Documents\Arabic\Surahs.docx" /ST 23:29
+	schTasks /Create /SC DAILY /D $DAY /TN "Arabic Message Warning" /TR (C:\Users\User\Desktop\Git_repos\Windows-Automation-Timetable\src\sendMessage.ps1 "Opening up Surah Document" "Time to start learning the Quran") /ST $TIME
+	schTasks /Create /SC DAILY /D $DAY /TN "My Task" /TR "C:\Users\User\Documents\Arabic\Surahs.docx" /ST $TIME
 	
 	
 	#Start-Process -FilePath "C:\Users\User\Documents\Arabic\Surahs.docx"
@@ -95,7 +89,7 @@ function checkState{
 
 }
 
-checkState
+#checkState
 #scheduleTasks
 learnLanguages
 
