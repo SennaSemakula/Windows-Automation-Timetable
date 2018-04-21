@@ -6,8 +6,6 @@
 #. "C:\Users\User\Desktop\Git_repos\Windows-Automation-Timetable\src\sendMessage.ps1"
 
 
-
-
 #test powershell script
 
 #Import the csv file
@@ -41,15 +39,32 @@ function learnLanguages{
 	$global:ARR_RESULT | ForEach-Object{
 		if ($_.Name -eq "Arabic"){
 			$TIME = $_.Time
-			$TASK_NAME = $_.Name
+			$NAME = $_.Name
 			$DAY = $_.Day
 		}
 	}
+
+	
+	#Delete old tasks
+	$TASK_NAME = "Arabic*"
+	$OUTPUT = get-ScheduledTask -TaskName $TASK_NAME
+	
+	echo $OUTPUT
+	$RESULT = [string]::IsNullOrEmpty($OUTPUT)
+	echo $RESULT
+	
+	#Validation to check whether task has already been created or not
+	if($RESULT){
+		#Schedule task to open up word document
+		Write-Host "Creating new task:" $TASK_NAME
+		schTasks /Create /SC WEEKLY /D $DAY /TN "Arabic Message Warning. Application will start in 10 minutes" /TR (C:\Users\User\Desktop\Git_repos\Windows-Automation-Timetable\src\sendMessage.ps1 "Opening up Surah Document" "Time to start learning the Quran") /ST $TIME /F
+		schTasks /Create /SC WEEKLY /D $DAY /TN "My Task" /TR "C:\Users\User\Documents\Arabic\Surahs.docx" /ST $TIME /F
+	}else{
+		schTasks /Delete /TN $TASK_NAME
+		Write-Host "Deleting redundant task:" $TASK_NAME
+	}
 	
 	
-	#Schedule task to open up word document
-	schTasks /Create /SC DAILY /D $DAY /TN "Arabic Message Warning" /TR (C:\Users\User\Desktop\Git_repos\Windows-Automation-Timetable\src\sendMessage.ps1 "Opening up Surah Document" "Time to start learning the Quran") /ST $TIME
-	schTasks /Create /SC DAILY /D $DAY /TN "My Task" /TR "C:\Users\User\Documents\Arabic\Surahs.docx" /ST $TIME
 	
 	
 	#Start-Process -FilePath "C:\Users\User\Documents\Arabic\Surahs.docx"
