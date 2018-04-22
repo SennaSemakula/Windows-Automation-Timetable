@@ -43,33 +43,36 @@ function learnLanguages{
 			$DAY = $_.Day
 		}
 	}
-
 	
 	#Delete old tasks
-	$TASK_NAME = "Arabic*"
-	$OUTPUT = get-ScheduledTask -TaskName $TASK_NAME
+	$TASK_NAME = "Message text box"
+	$OUTPUT = get-ScheduledTask -TaskName "Message*"
 	
-	echo $OUTPUT
+	
+	#Schedule task to open up word document
+	Write-Host "Creating new task:" "Arabic Message Warning"
+	schTasks /Create /SC WEEKLY /D $DAY /TN "Arabic Message Warning" /TR "powershell.exe -file C:\Users\User\Desktop\Git_repos\Windows-Automation-Timetable\src\runMessage.ps1" /ST $TIME /F
+	
+	#Delete old tasks
+	$TASK_NAME = "Open Surah Documents"
+	$OUTPUT = get-ScheduledTask -TaskName "Arabic*"
+	
 	$RESULT = [string]::IsNullOrEmpty($OUTPUT)
-	echo $RESULT
+
+	#################CONTINUE HERE######################
+	#Need to check if both tasks have been purged
+	#currently onlly checking if arabic class has
 	
-	#Validation to check whether task has already been created or not
-	if($RESULT){
-		#Schedule task to open up word document
-		Write-Host "Creating new task:" $TASK_NAME
-		schTasks /Create /SC WEEKLY /D $DAY /TN "Arabic Message Warning. Application will start in 10 minutes" /TR (C:\Users\User\Desktop\Git_repos\Windows-Automation-Timetable\src\sendMessage.ps1 "Opening up Surah Document" "Time to start learning the Quran") /ST $TIME /F
-		schTasks /Create /SC WEEKLY /D $DAY /TN "My Task" /TR "C:\Users\User\Documents\Arabic\Surahs.docx" /ST $TIME /F
-	}else{
-		schTasks /Delete /TN $TASK_NAME
-		Write-Host "Deleting redundant task:" $TASK_NAME
-	}
-	
-	
-	
-	
+	Write-Host "Creating new task:" $TASK_NAME
+	schTasks /Create /SC WEEKLY /D $DAY /TN $TASK_NAME /TR "C:\Users\User\Documents\Arabic\Surahs.docx" /ST $TIME /F
+$hello
 	#Start-Process -FilePath "C:\Users\User\Documents\Arabic\Surahs.docx"
 	
 }
+
+
+
+#
 
 function practiceInterview{}
 

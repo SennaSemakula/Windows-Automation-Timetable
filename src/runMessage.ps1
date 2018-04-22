@@ -1,0 +1,1 @@
+(C:\Users\User\Desktop\Git_repos\Windows-Automation-Timetable\src\sendMessage.ps1 "Opening up Surah Documents" "Time to start learning the Quran")
